@@ -13,7 +13,7 @@ const Cast = () => {
     if (movieId) {
       fetchCast();
     }
-  }, [movieId]);
+  }, [movieId]); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const fetchCast = async () => {
     const movieCast = await fetchMovieCast(movieId);
