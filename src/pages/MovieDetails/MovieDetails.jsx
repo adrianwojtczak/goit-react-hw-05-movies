@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Outlet } from 'react-router-dom';
 import { fetchMovieDetails } from 'services/fetchData';
 
 const MovieDetails = () => {
@@ -8,7 +8,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     fetchMovie();
-  });
+  }, []);
 
   const fetchMovie = async () => {
     const movieDetails = await fetchMovieDetails(movieId);
@@ -31,6 +31,7 @@ const MovieDetails = () => {
         <Link to={`/movies/${movieId}/cast`}>Cast</Link>
         <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
       </nav>
+      <Outlet />
     </div>
   );
 };

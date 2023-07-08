@@ -10,7 +10,7 @@ const Reviews = () => {
 
   useEffect(() => {
     fetchReviews();
-  });
+  }, []);
 
   const fetchReviews = async () => {
     const movieReviews = await fetchMovieReviews(movieId);
