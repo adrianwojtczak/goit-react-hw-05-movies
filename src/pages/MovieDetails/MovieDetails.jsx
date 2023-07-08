@@ -8,7 +8,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     fetchMovie();
-  }, []);
+  });
 
   const fetchMovie = async () => {
     const movieDetails = await fetchMovieDetails(movieId);

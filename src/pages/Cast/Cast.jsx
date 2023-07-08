@@ -13,7 +13,7 @@ const Cast = () => {
     if (movieId) {
       fetchCast();
     }
-  }, [movieId]);
+  });
 
   const fetchCast = async () => {
     const movieCast = await fetchMovieCast(movieId);
