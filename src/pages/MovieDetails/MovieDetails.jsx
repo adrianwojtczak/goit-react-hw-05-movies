@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useParams, Outlet } from 'react-router-dom';
 import { fetchMovieDetails } from 'services/fetchData';
 import Spinner from 'components/Loader/Loader';
@@ -72,7 +72,9 @@ const MovieDetails = () => {
         <StyledLink to={`/movies/${movieId}/cast`}>Cast</StyledLink>
         <StyledLink to={`/movies/${movieId}/reviews`}>Reviews</StyledLink>
       </nav>
-      <Outlet />
+      <Suspense fallback={<Spinner />}>
+        <Outlet />
+      </Suspense>
     </Wrapper>
   );
 };
