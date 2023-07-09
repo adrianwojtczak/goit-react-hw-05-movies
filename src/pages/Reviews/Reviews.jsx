@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieReviews } from 'services/fetchData';
 
+import { Wrapper } from './Reviews.styled';
+
 const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
-
-  console.log('reviews baggining: ', reviews);
 
   useEffect(() => {
     fetchReviews();
@@ -17,11 +17,8 @@ const Reviews = () => {
     setReviews(movieReviews);
   };
 
-  console.log('reviews fetch: ', reviews);
-
   return (
-    <div>
-      <h2>Reviews</h2>
+    <Wrapper>
       {reviews.length === 0 ? (
         <p>No reviews available</p>
       ) : (
@@ -32,7 +29,7 @@ const Reviews = () => {
           </div>
         ))
       )}
-    </div>
+    </Wrapper>
   );
 };
 

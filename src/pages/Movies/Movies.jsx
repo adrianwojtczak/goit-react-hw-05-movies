@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { searchMovies } from 'services/fetchData';
+import Placeholder from 'components/Placeholder/Placeholder';
+
+import { Wrapper, Grid, StyledLink } from './Movies.styled';
 
 const Movies = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchedMovies, setSearchedMovies] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(navigate);
-  console.log(location);
-
-  const handleSearch = ev => {
-    ev.preventDefault();
-    navigate(`/movies?query=${searchTerm}`);
-  };
-
-  console.log('query: ', searchTerm); // Wywołanie tablicy wyników
 
   const searchQuery = new URLSearchParams(location.search).get('query') || '';
 
@@ -26,14 +19,38 @@ const Movies = () => {
     }
   }, [searchQuery]);
 
+  useEffect(() => {
+    sessionStorage.setItem(
+      'lastVisitedPage',
+      location.pathname + location.search
+    );
+  }, [location.pathname, location.search]);
+
+  const handleSearch = ev => {
+    ev.preventDefault();
+    navigate(`/movies?query=${searchTerm}`);
+  };
+
   const fetchMovies = async query => {
     const searchedMovies = await searchMovies(query);
     setSearchedMovies(searchedMovies);
   };
 
+  const renderPoster = movie => {
+    if (movie.poster_path) {
+      return (
+        <img
+          src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+          alt={movie.title}
+        />
+      );
+    } else {
+      return <Placeholder />;
+    }
+  };
+
   return (
-    <div>
-      <h1>Movie Search</h1>
+    <Wrapper>
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -47,20 +64,19 @@ const Movies = () => {
       {searchedMovies.length > 0 && (
         <div>
           <h2>Search Results:</h2>
-          {searchedMovies.map(movie => (
-            <div key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                  alt={movie.title}
-                />
-                <h3>{movie.title}</h3>
-              </Link>
-            </div>
-          ))}
+          <Grid>
+            {searchedMovies.map(movie => (
+              <div key={movie.id}>
+                <StyledLink to={`/movies/${movie.id}`}>
+                  {renderPoster(movie)}
+                  <h3>{movie.title}</h3>
+                </StyledLink>
+              </div>
+            ))}
+          </Grid>
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 };
 
