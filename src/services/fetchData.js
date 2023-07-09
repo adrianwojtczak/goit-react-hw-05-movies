@@ -29,7 +29,7 @@ export const searchMovies = async query => {
 export const fetchMovieDetails = async movieId => {
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=genres`
     );
     return response.data;
   } catch (error) {
